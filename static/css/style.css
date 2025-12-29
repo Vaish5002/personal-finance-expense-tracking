@@ -1,0 +1,427 @@
+/* RESET */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Inter", Arial, sans-serif;
+    background: #f9fafb;
+}
+
+/* MAIN LAYOUT */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 240px;
+    background: #ffffff;
+    border-right: 1px solid #e5e7eb;
+}
+
+/* PROFILE */
+.profile-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.profile-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+}
+
+/* DROPDOWN */
+.profile-menu {
+    display: none;
+    margin: 0 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    padding: 8px;
+}
+
+.profile-menu a {
+    display: block;
+    padding: 10px;
+    color: #374151;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.profile-menu a:hover {
+    background: #f1f5f9;
+}
+
+/* NAV LINKS */
+.nav-links a {
+    display: block;
+    padding: 12px 20px;
+    color: #1f2937;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    background: #f3f4f6;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* TOPBAR */
+.topbar {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* PAGE CONTENT */
+.page-content {
+    padding: 24px;
+}
+/* HOME PAGE */
+.home-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 64px;              /* KEY FIX */
+    padding: 0 32px;           /* Horizontal only */
+
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+
+
+.logo {
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.hero {
+    background: linear-gradient(135deg, #93c5fd, #bfdbfe);
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.hero p {
+    margin: 20px 0;
+    color: #374151;
+    font-size: 1.1rem;
+}
+
+.purpose {
+    padding: 60px 0;
+}
+/* ================= WHY MONEYTRACKER SECTION ================= */
+
+.summary-card {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+}
+
+.summary-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 20px;
+}
+
+.summary-desc {
+    font-size: 1.25rem;
+    color: #374151;
+    line-height: 1.75;
+    margin-bottom: 26px;
+}
+
+.summary-list {
+    list-style: none;
+    padding: 0;
+}
+
+.summary-list li {
+    font-size: 1.15rem;
+    color: #1f2937;
+    margin-bottom: 14px;
+    padding-left: 30px;
+    position: relative;
+}
+
+.summary-list li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    color: #2563eb;
+    font-weight: bold;
+}
+
+/* Image polish only for summary image */
+.summary-img {
+    border-radius: 18px;
+    box-shadow: 0 18px 36px rgba(0,0,0,0.12);
+}
+
+
+.preview {
+    background: #f9fafb;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.preview-img {
+    max-width: 900px;
+    margin-top: 20px;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+}
+/* HERO BANNER */
+.hero-banner {
+    position: relative;
+    height: 80vh;
+    background-image: url("../images/money-growth.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #93c5fd; /* fallback blue */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* DARK / LIGHT OVERLAY */
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 58, 138, 0.65);
+    /* increase opacity if text not clear */
+}
+
+/* TEXT CONTENT */
+.hero-content {
+    position: relative;
+    text-align: center;
+    color: #ffffff;
+    max-width: 700px;
+    padding: 20px;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.hero-content p {
+    margin: 20px 0 30px;
+    font-size: 1.1rem;
+    color: #e5e7eb;
+}
+.hero-banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to right,
+        rgba(59, 93, 168, 1) 0%,
+        rgba(59, 93, 168, 0.4) 20%,
+        rgba(59, 93, 168, 0.4) 80%,
+        rgba(59, 93, 168, 1) 100%
+    );
+    z-index: 1;
+}
+/* Offset hero below sticky navbar */
+.hero-banner {
+    margin-top: 64px; /* same as navbar height */
+}
+/* Navbar logo sizing */
+.nav-logo {
+    height: 85px;        /* Bigger logo */
+    width: auto;
+    max-height: 90px;
+    display: block;
+}
+/* ================= THEME TOGGLE BUTTON ================= */
+
+.theme-btn {
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 6px;
+    border-radius: 50%;
+    transition: background 0.2s ease;
+}
+
+.theme-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+/* ================= DARK MODE ================= */
+
+body.dark {
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
+body.dark .home-navbar {
+    background: grey;
+    box-shadow: none;
+}
+
+body.dark .summary-card,
+body.dark .sidebar,
+body.dark .topbar {
+    background: #020617;
+    color: #e5e7eb;
+}
+body.dark .summary-title {
+    color: #f8fafc;
+}
+
+
+body.dark .summary-desc,
+body.dark .summary-list li {
+    color: #cbd5f5;
+}
+
+body.dark .btn-outline-primary {
+    color: #93c5fd;
+    border-color: #93c5fd;
+}
+
+body.dark .btn-outline-primary:hover {
+    background: #93c5fd;
+    color: #020617;
+}
+
+/* LOGO BASE */
+.nav-logo {
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+/* LOGO HOVER */
+.nav-logo:hover {
+    transform: scale(1.08);
+    filter: drop-shadow(0 4px 10px rgba(37, 99, 235, 0.35));
+}
+
+/* DARK MODE LOGO FIX */
+body.dark .nav-logo {
+    filter: brightness(1.25) contrast(1.1);
+}
+/* FOOTER DARK MODE FIX */
+body.dark .footer {
+    background: #020617;
+    color: #e5e7eb;
+}
+
+body.dark .footer p {
+    color: #cbd5f5;
+}
+/* ================= PREVIEW SECTION DARK MODE ================= */
+
+body.dark .preview {
+    background: linear-gradient(
+        180deg,
+        #020617 0%,
+        #020617 100%
+    );
+}
+body.dark .preview h2,
+body.dark .preview h3 {
+    color: #f8fafc;
+}
+
+body.dark .preview p {
+    color: #cbd5f5;
+}
+body.dark .preview-img {
+    filter: brightness(0.9) contrast(1.05);
+}
+/* Preview section paragraph text in dark mode */
+body.dark .preview p {
+    color: #ffffff !important;
+}
+
+.preview-img {
+    border-radius: 18px;
+    box-shadow: 0 18px 36px rgba(0,0,0,0.12);
+}
+
+/* ================= AUTH PAGES (LOGIN + SIGNUP) ================= */
+
+.auth-section {
+    min-height: calc(100vh - 64px); /* navbar height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-image: url("../images/auth-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    position: relative;
+    padding: 40px 16px;
+}
+
+/* Overlay for readability */
+.auth-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    z-index: 1;
+}
+
+/* Card stays above overlay */
+.auth-card {
+    position: relative;
+    z-index: 2;
+
+    background: #ffffff;
+    padding: 36px;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 20px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+}
+
+/* DARK MODE */
+body.dark .auth-section::before {
+    background: rgba(2, 6, 23, 0.85);
+}
+
+body.dark .auth-card {
+    background: #020617;
+}

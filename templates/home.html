@@ -1,0 +1,75 @@
+{% extends "base_public.html" %}
+
+{% block title %}
+MoneyTracker | Track Your Money Smartly
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero-banner">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+        <h1>Track Your Money.<br>Grow Your Future.</h1>
+        <p>
+            Monitor income and expenses daily or weekly
+            and build smarter saving habits.
+        </p>
+
+        <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">
+            Track Your Money
+        </a>
+    </div>
+</section>
+
+<!-- PURPOSE / SUMMARY -->
+<section class="purpose container">
+    <div class="row align-items-center g-5">
+
+        <div class="col-md-6">
+            <div class="summary-card">
+                <h2 class="summary-title">Why MoneyTracker?</h2>
+
+                <p class="summary-desc">
+                    MoneyTracker helps you track income and expenses,
+                    understand spending habits, and plan better for the future.
+                </p>
+
+                <ul class="summary-list">
+                    <li>Daily & weekly tracking</li>
+                    <li>Category-wise expense analysis</li>
+                    <li>Simple and clean dashboard</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6 text-center">
+            <img
+                src="{{ url_for('static', filename='images/summary.png') }}"
+                class="img-fluid summary-img"
+                alt="Why MoneyTracker"
+            >
+        </div>
+
+    </div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<section class="preview">
+    <div class="container text-center">
+        <h2>Manage your money with MoneyTracker</h2>
+        <p class="text-muted">
+            A clean dashboard that shows income, expenses, and savings at a glance.
+            Try it now!.
+        </p>
+
+        <img
+            src="{{ url_for('static', filename='images/bottomimg.png') }}"
+            class="img-fluid preview-img"
+            alt="Bottomimg"
+        >
+    </div>
+</section>
+
+{% endblock %}
