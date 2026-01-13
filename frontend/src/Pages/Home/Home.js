@@ -18,6 +18,15 @@ import Analytics from "./Analytics";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import HomeIcon from "@mui/icons-material/Home";
+import PaymentsIcon from "@mui/icons-material/Payments";
+import RestaurantIcon from "@mui/icons-material/Restaurant";
+import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+import BoltIcon from "@mui/icons-material/Bolt";
+import MovieIcon from "@mui/icons-material/Movie";
+import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
+import CategoryIcon from "@mui/icons-material/Category";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -114,40 +123,47 @@ const Home = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { title, amount, description, category, date, transactionType } =
-      values;
+    const { amount, category, date, transactionType } = values;
 
     if (
-      !title ||
       !amount ||
-      !description ||
       !category ||
       !date ||
       !transactionType
     ) {
       toast.error("Please enter all the fields", toastOptions);
+      return;
     }
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const { data } = await axios.post(addTransaction, {
-      title: title,
-      amount: amount,
-      description: description,
-      category: category,
-      date: date,
-      transactionType: transactionType,
-      userId: cUser._id,
-    });
+      const { data } = await axios.post(addTransaction, {
+        title: category,
+        amount: amount,
+        description: category,
+        category: category,
+        date: date,
+        transactionType: transactionType,
+        userId: cUser._id,
+      });
 
-    if (data.success === true) {
-      toast.success(data.message, toastOptions);
-      handleClose();
-      setRefresh(!refresh);
-    } else {
-      toast.error(data.message, toastOptions);
+      if (data.success === true) {
+        toast.success(data.message, toastOptions);
+        handleClose();
+        setRefresh(!refresh);
+      } else {
+        toast.error(data.message || data.messages || "Unable to add transaction", toastOptions);
+      }
+    } catch (err) {
+      const apiMsg =
+        err?.response?.data?.message ||
+        err?.response?.data?.messages ||
+        err?.message ||
+        "Unable to add transaction";
+      toast.error(apiMsg, toastOptions);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   const handleReset = () => {
@@ -195,6 +211,18 @@ const Home = () => {
   const handleChartClick = (e) => {
     setView("chart");
   };
+
+  const categoryOptions = [
+    { value: "Groceries", label: "Grocery", Icon: ShoppingCartIcon },
+    { value: "Rent", label: "Rent", Icon: HomeIcon },
+    { value: "Salary", label: "Salary", Icon: PaymentsIcon },
+    { value: "Food", label: "Food", Icon: RestaurantIcon },
+    { value: "Medical", label: "Medical", Icon: MedicalServicesIcon },
+    { value: "Utilities", label: "Utility", Icon: BoltIcon },
+    { value: "Entertainment", label: "Fun", Icon: MovieIcon },
+    { value: "Transportation", label: "Transport", Icon: DirectionsBusIcon },
+    { value: "Other", label: "Other", Icon: CategoryIcon },
+  ];
 
   return (
     <>
@@ -336,25 +364,65 @@ const Home = () => {
                 />
               </div>
 
-              <div>
+              <div className="filterActions">
+                <Button variant="outline-light" onClick={handleReset} className="resetBtnTop">
+                  Reset
+                </Button>
                 <Button onClick={handleShow} className="mobileBtn">
                   +
                 </Button>
                 <Modal show={show} onHide={handleClose} centered>
                   <Modal.Header closeButton>
-                    <Modal.Title>Add Transaction Details</Modal.Title>
+                    <Modal.Title>Add Transaction</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
                     <Form>
-                      <Form.Group className="mb-3" controlId="formName">
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control
-                          name="title"
-                          type="text"
-                          placeholder="Enter Transaction Name"
-                          value={values.name}
-                          onChange={handleChange}
-                        />
+                      <div className="txnTypeRow">
+                        <div
+                          className={`txnTypePill ${
+                            values.transactionType === "expense" ? "txnTypePillActive" : ""
+                          }`}
+                          onClick={() =>
+                            setValues({ ...values, transactionType: "expense" })
+                          }
+                          role="button"
+                          tabIndex={0}
+                        >
+                          Expense
+                        </div>
+                        <div
+                          className={`txnTypePill ${
+                            values.transactionType === "credit" ? "txnTypePillActive" : ""
+                          }`}
+                          onClick={() =>
+                            setValues({ ...values, transactionType: "credit" })
+                          }
+                          role="button"
+                          tabIndex={0}
+                        >
+                          Credit
+                        </div>
+                      </div>
+
+                      <Form.Group className="mb-3" controlId="formCategory">
+                        <Form.Label>Category</Form.Label>
+                        <div className="categoryGrid">
+                          {categoryOptions.map(({ value, label, Icon }) => (
+                            <button
+                              type="button"
+                              key={value}
+                              className={`categoryChip ${
+                                values.category === value ? "categoryChipActive" : ""
+                              }`}
+                              onClick={() => setValues({ ...values, category: value })}
+                            >
+                              <span className="categoryChipIcon">
+                                <Icon sx={{ fontSize: 20 }} />
+                              </span>
+                              <span className="categoryChipLabel">{label}</span>
+                            </button>
+                          ))}
+                        </div>
                       </Form.Group>
 
                       <Form.Group className="mb-3" controlId="formAmount">
@@ -366,51 +434,6 @@ const Home = () => {
                           value={values.amount}
                           onChange={handleChange}
                         />
-                      </Form.Group>
-
-                      <Form.Group className="mb-3" controlId="formSelect">
-                        <Form.Label>Category</Form.Label>
-                        <Form.Select
-                          name="category"
-                          value={values.category}
-                          onChange={handleChange}
-                        >
-                          <option value="">Choose...</option>
-                          <option value="Groceries">Groceries</option>
-                          <option value="Rent">Rent</option>
-                          <option value="Salary">Salary</option>
-                          <option value="Tip">Tip</option>
-                          <option value="Food">Food</option>
-                          <option value="Medical">Medical</option>
-                          <option value="Utilities">Utilities</option>
-                          <option value="Entertainment">Entertainment</option>
-                          <option value="Transportation">Transportation</option>
-                          <option value="Other">Other</option>
-                        </Form.Select>
-                      </Form.Group>
-
-                      <Form.Group className="mb-3" controlId="formDescription">
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="description"
-                          placeholder="Enter Description"
-                          value={values.description}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
-
-                      <Form.Group className="mb-3" controlId="formSelect1">
-                        <Form.Label>Transaction Type</Form.Label>
-                        <Form.Select
-                          name="transactionType"
-                          value={values.transactionType}
-                          onChange={handleChange}
-                        >
-                          <option value="">Choose...</option>
-                          <option value="credit">Credit</option>
-                          <option value="expense">Expense</option>
-                        </Form.Select>
                       </Form.Group>
 
                       <Form.Group className="mb-3" controlId="formDate">
@@ -476,12 +499,6 @@ const Home = () => {
             ) : (
               <></>
             )}
-
-            <div className="containerBtn">
-              <Button variant="primary" onClick={handleReset}>
-                Reset Filter
-              </Button>
-            </div>
             {view === "table" ? (
               <>
                 <TableData data={transactions} user={cUser} />
