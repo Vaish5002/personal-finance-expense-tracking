@@ -92,7 +92,7 @@ const TableData = (props) => {
   return (
     <>
       <Container>
-        <Table responsive="md" className="data-table">
+        <Table responsive="md" className="data-table txnTable">
           <thead>
             <tr>
               <th>Date</th>
@@ -103,25 +103,44 @@ const TableData = (props) => {
               <th>Action</th>
             </tr>
           </thead>
-          <tbody className="text-white">
+          <tbody>
             {props.data.map((item, index) => (
               <tr key={index}>
-                <td>{moment(item.date).format("YYYY-MM-DD")}</td>
-                <td>{item.title}</td>
-                <td>{item.amount}</td>
-                <td>{item.transactionType}</td>
-                <td>{item.category}</td>
+                <td className="txnDate">{moment(item.date).format("YYYY-MM-DD")}</td>
+                <td className="txnTitle">{item.title}</td>
+                <td className="txnAmountCell">
+                  <span
+                    className={`txnAmount ${
+                      item.transactionType === "credit" ? "txnAmountCredit" : "txnAmountExpense"
+                    }`}
+                  >
+                    {item.transactionType === "credit" ? "+" : "-"}
+                    {item.amount}
+                  </span>
+                </td>
                 <td>
-                  <div className="icons-handle">
+                  <span
+                    className={`txnTypePillSmall ${
+                      item.transactionType === "credit" ? "txnTypeCredit" : "txnTypeExpense"
+                    }`}
+                  >
+                    {item.transactionType === "credit" ? "Credit" : "Expense"}
+                  </span>
+                </td>
+                <td>
+                  <span className="txnCategoryChip">{item.category}</span>
+                </td>
+                <td>
+                  <div className="txnActions">
                     <EditNoteIcon
-                      sx={{ cursor: "pointer" }}
+                      className="txnActionIcon"
                       key={item._id}
                       id={item._id}
                       onClick={() => handleEditClick(item._id)}
                     />
 
                     <DeleteForeverIcon
-                      sx={{ color: "red", cursor: "pointer" }}
+                      className="txnActionIcon txnActionDelete"
                       key={index}
                       id={item._id}
                       onClick={() => handleDeleteClick(item._id)}
