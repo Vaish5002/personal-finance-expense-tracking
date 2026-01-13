@@ -1,10 +1,15 @@
 // NavbarComponent.js
 import React, { useCallback, useEffect, useState } from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, Button, Dropdown } from 'react-bootstrap';
 import "./style.css";
 import { useNavigate } from 'react-router-dom';
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LogoutIcon from "@mui/icons-material/Logout";
+import PersonIcon from "@mui/icons-material/Person";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 const Header = () => {
   
 const navigate = useNavigate();
@@ -14,6 +19,7 @@ const navigate = useNavigate();
   }
 
   const [user, setUser] = useState();
+  const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
     
@@ -24,13 +30,27 @@ const navigate = useNavigate();
         
       }
 
-
-    
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      setTheme(savedTheme);
   }, []);
+
+  useEffect(() => {
+    document.body.classList.remove("theme-dark", "theme-light");
+    document.body.classList.add(theme === "light" ? "theme-light" : "theme-dark");
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const handleShowLogout = () => {
     localStorage.removeItem("user");
     navigate("/login");
+  }
+
+  const handleProfile = () => {
+    navigate("/profile");
+  }
+
+  const toggleTheme = () => {
+    setTheme((t) => (t === "light" ? "dark" : "light"));
   }
 
   const particlesInit = useCallback(async (engine) => {
@@ -44,7 +64,7 @@ const navigate = useNavigate();
   
   return (
     <>
-    <div style={{ position: 'relative', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', overflow: 'visible' }}>
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -52,7 +72,7 @@ const navigate = useNavigate();
         options={{
           background: {
             color: {
-              value: '#000',
+              value: theme === "light" ? "#f7f7fb" : "#000",
             },
           },
           fpsLimit: 60,
@@ -65,7 +85,7 @@ const navigate = useNavigate();
               },
             },
             color: {
-              value: '#ffcc00',
+              value: theme === "light" ? "#111827" : "#ffcc00",
             },
             shape: {
               type: 'circle',
@@ -133,7 +153,32 @@ const navigate = useNavigate();
           {user ? (
             <>
             <Nav>
-                <Button variant="primary" onClick={handleShowLogout} className="ml-2">Logout</Button>
+                <Dropdown align="end">
+                  <Dropdown.Toggle as="button" className="profileBtn" aria-label="Profile menu">
+                    <AccountCircleIcon sx={{ fontSize: 30, color: "white" }} />
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu className="profileMenu">
+                    <Dropdown.Item onClick={handleProfile} className="profileMenuItem">
+                      <PersonIcon sx={{ fontSize: 18 }} />
+                      <span>Profile</span>
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={toggleTheme} className="profileMenuItem">
+                    {theme === "light" ? (
+                      <DarkModeIcon sx={{ fontSize: 18 }} />
+                    ) : (
+                      <LightModeIcon sx={{ fontSize: 18 }} />
+                    )}
+                      <span>
+                        Switch to {theme === "light" ? "Dark" : "White"}
+                      </span>
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item onClick={handleShowLogout} className="profileMenuItem">
+                    <LogoutIcon sx={{ fontSize: 18 }} />
+                    <span>Logout</span>
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               </Nav>
             </>
           ) : (

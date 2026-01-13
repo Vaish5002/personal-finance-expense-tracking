@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
-import { Button, Modal, Form, Container } from "react-bootstrap";
+import { Button, Modal, Form, Container, Card, Row, Col } from "react-bootstrap";
 // import loading from "../../assets/loader.gif";
 import "./home.css";
 import { addTransaction, getTransactions } from "../../utils/ApiRequest";
@@ -15,6 +15,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import Analytics from "./Analytics";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -39,6 +42,23 @@ const Home = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [view, setView] = useState("table");
+
+  const summary = React.useMemo(() => {
+    const earned = transactions
+      .filter((t) => t.transactionType === "credit")
+      .reduce((sum, t) => sum + Number(t.amount || 0), 0);
+
+    const spent = transactions
+      .filter((t) => t.transactionType === "expense")
+      .reduce((sum, t) => sum + Number(t.amount || 0), 0);
+
+    return {
+      earned,
+      spent,
+      net: earned - spent,
+      count: transactions.length,
+    };
+  }, [transactions]);
 
   const handleStartChange = (date) => {
     setStartDate(date);
@@ -190,6 +210,83 @@ const Home = () => {
             style={{ position: "relative", zIndex: "2 !important" }}
             className="mt-3"
           >
+            <div className="trackHeader">
+              <div>
+                <div className="trackTitle">Track your money</div>
+                <div className="trackSubtitle">
+                  Filter transactions, switch views, and add new entries quickly.
+                </div>
+              </div>
+              <div className="trackHeaderActions">
+                <Button onClick={handleShow} className="trackAddBtn">
+                  Add transaction
+                </Button>
+              </div>
+            </div>
+
+            <Row className="g-3 mt-1">
+              <Col md={3} sm={6}>
+                <Card className="trackStatCard">
+                  <Card.Body>
+                    <div className="trackStatRow">
+                      <div className="trackStatIcon trackStatIconGreen">
+                        <TrendingUpIcon sx={{ fontSize: 22 }} />
+                      </div>
+                      <div>
+                        <div className="trackStatLabel">Earned</div>
+                        <div className="trackStatValue">{summary.earned.toFixed(2)}</div>
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col md={3} sm={6}>
+                <Card className="trackStatCard">
+                  <Card.Body>
+                    <div className="trackStatRow">
+                      <div className="trackStatIcon trackStatIconRed">
+                        <TrendingDownIcon sx={{ fontSize: 22 }} />
+                      </div>
+                      <div>
+                        <div className="trackStatLabel">Spent</div>
+                        <div className="trackStatValue">{summary.spent.toFixed(2)}</div>
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col md={3} sm={6}>
+                <Card className="trackStatCard">
+                  <Card.Body>
+                    <div className="trackStatRow">
+                      <div className="trackStatIcon trackStatIconBlue">
+                        <AccountBalanceWalletIcon sx={{ fontSize: 22 }} />
+                      </div>
+                      <div>
+                        <div className="trackStatLabel">Net</div>
+                        <div className="trackStatValue">{summary.net.toFixed(2)}</div>
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col md={3} sm={6}>
+                <Card className="trackStatCard">
+                  <Card.Body>
+                    <div className="trackStatRow">
+                      <div className="trackStatIcon trackStatIconPurple">
+                        <FormatListBulletedIcon sx={{ fontSize: 22 }} />
+                      </div>
+                      <div>
+                        <div className="trackStatLabel">Transactions</div>
+                        <div className="trackStatValue">{summary.count}</div>
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+
             <div className="filterRow">
               <div className="text-white">
                 <Form.Group className="mb-3" controlId="formSelectFrequency">
@@ -240,9 +337,6 @@ const Home = () => {
               </div>
 
               <div>
-                <Button onClick={handleShow} className="addNew">
-                  Add New
-                </Button>
                 <Button onClick={handleShow} className="mobileBtn">
                   +
                 </Button>

@@ -6,6 +6,86 @@
 
 }
 
+.trackHeader{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap: 16px;
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: rgba(18,18,18,0.55);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+}
+
+.trackTitle{
+    font-size: 22px;
+    font-weight: 900;
+    color: white;
+}
+
+.trackSubtitle{
+    margin-top: 6px;
+    color: rgba(255,255,255,0.75);
+    max-width: 68ch;
+}
+
+.trackHeaderActions{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+}
+
+.trackAddBtn{
+    border-radius: 12px !important;
+    font-weight: 800 !important;
+    padding: 10px 14px !important;
+}
+
+.trackStatCard{
+    border-radius: 18px !important;
+    background: rgba(18,18,18,0.55) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.30);
+}
+
+.trackStatRow{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+}
+
+.trackStatIcon{
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border: 1px solid rgba(255,255,255,0.16);
+    color: white;
+}
+
+.trackStatIconGreen{ background: rgba(0, 200, 83, 0.18); }
+.trackStatIconRed{ background: rgba(255, 82, 82, 0.18); }
+.trackStatIconBlue{ background: rgba(0, 153, 255, 0.18); }
+.trackStatIconPurple{ background: rgba(124, 58, 237, 0.18); }
+
+.trackStatLabel{
+    color: rgba(255,255,255,0.70);
+    font-weight: 800;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.trackStatValue{
+    margin-top: 2px;
+    color: white;
+    font-size: 20px;
+    font-weight: 900;
+}
+
 .data-table {
     border-collapse: collapse;
   }
